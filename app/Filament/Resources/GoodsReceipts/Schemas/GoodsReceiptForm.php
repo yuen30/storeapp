@@ -86,7 +86,15 @@ class GoodsReceiptForm
                                 TextInput::make('name')
                                     ->label('ชื่อบริษัท')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->unique(
+                                        table: Company::class, // ใช้ชื่อ Model แทนชื่อ Table ได้เลย
+                                        column: 'name',
+                                        ignorable: fn ($record) => $record
+                                    )
+                                    ->validationMessages([
+                                        'unique' => 'ชื่อบริษัทมีอยู่ในระบบแล้ว กรุณาใช้ชื่ออื่น',
+                                    ]),
                                 TextInput::make('code')
                                     ->label('รหัสบริษัท')
                                     ->maxLength(50)

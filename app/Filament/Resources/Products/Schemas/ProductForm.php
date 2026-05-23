@@ -3,7 +3,10 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use App\Models\Branch;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Company;
+use App\Models\Unit;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -137,7 +140,15 @@ class ProductForm
                                         TextInput::make('name')
                                             ->label('ชื่อหมวดหมู่')
                                             ->required()
-                                            ->maxLength(255),
+                                            ->maxLength(255)
+                                            ->unique(
+                                                table: Category::class, // ใช้ชื่อ Model แทนชื่อ Table ได้เลย
+                                                column: 'name',
+                                                ignorable: fn ($record) => $record
+                                            )
+                                            ->validationMessages([
+                                                'unique' => 'ชื่อหมวดหมู่มีอยู่ในระบบแล้ว กรุณาใช้ชื่ออื่น',
+                                            ]),
                                         TextInput::make('code')
                                             ->label('รหัสหมวดหมู่')
                                             ->maxLength(50)
@@ -162,7 +173,15 @@ class ProductForm
                                         TextInput::make('name')
                                             ->label('ชื่อยี่ห้อ')
                                             ->required()
-                                            ->maxLength(255),
+                                            ->maxLength(255)
+                                            ->unique(
+                                                table: Brand::class, // ใช้ชื่อ Model แทนชื่อ Table ได้เลย
+                                                column: 'name',
+                                                ignorable: fn ($record) => $record
+                                            )
+                                            ->validationMessages([
+                                                'unique' => 'ชื่อยี่ห้อมีอยู่ในระบบแล้ว กรุณาใช้ชื่ออื่น',
+                                            ]),
                                         TextInput::make('code')
                                             ->label('รหัสยี่ห้อ')
                                             ->maxLength(50)
@@ -187,7 +206,15 @@ class ProductForm
                                         TextInput::make('name')
                                             ->label('ชื่อหน่วยนับ')
                                             ->required()
-                                            ->maxLength(255),
+                                            ->maxLength(255)
+                                            ->unique(
+                                                table: Unit::class, // ใช้ชื่อ Model แทนชื่อ Table ได้เลย
+                                                column: 'name',
+                                                ignorable: fn ($record) => $record
+                                            )
+                                            ->validationMessages([
+                                                'unique' => 'ชื่อหน่วยนับมีอยู่ในระบบแล้ว กรุณาใช้ชื่ออื่น',
+                                            ]),
                                         TextInput::make('code')
                                             ->label('รหัสหน่วยนับ')
                                             ->maxLength(50)
